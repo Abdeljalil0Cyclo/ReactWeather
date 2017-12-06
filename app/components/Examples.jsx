@@ -12,7 +12,7 @@ var React = require ('react');
 
 var Examples = (props) => {
   return (
-       <h1> this is the Examples </h1>
+       <h1> this is the Examples ! </h1>
     );
 };
 module.exports=Examples;
