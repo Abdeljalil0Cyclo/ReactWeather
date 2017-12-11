@@ -20,7 +20,7 @@ var Nav = React.createClass({
       e.preventDefault();
       alert("not yet"); 
     },
-  render :function(){
+   render:function(){
    return (
       <div className="top-bar">
        <div className="top-bar-left">
@@ -38,7 +38,7 @@ var Nav = React.createClass({
            <input type="Search" placeholder="Search weather"/>
            </li>
            <li>
-             <input type="Submit" className="button" value="Get Weather" />
+             <input type="submit" className="button" value="Get Weather" />
            </li>
           </ul>
         </form>

@@ -1,52 +1,70 @@
-var React = require ('react');
-var WeatherForm =require('WeatherForm');
-var WeatherMessage =require('WeatherMessage');
-var openWeatherMap=require('openWeatherMap');
+var React = require('react');
+var WeatherForm = require('WeatherForm');
+var ErrorModel = require('ErrorModel');
+var WeatherMessage = require('WeatherMessage');
+var openWeatherMap = require('openWeatherMap');
 
 
 var Weather = React.createClass({
-  getInitialState :function(){
+  getInitialState: function() {
     return {
-     isLoading :false
+      isLoading: false 
     }
   },
-  handleSearch:function(location){   
-    var that =this;
- 
-    this.setState({isLoading:true});
+
+  handleSearch: function(location) {
+    
+
+    this.setState({
+      isLoading: true,
+      errorMessage: undefined
+    });
+    var that = this;
     openWeatherMap.getTemp(location).then(function(temp){
-        that.setState({
-        location : location,
+      that.setState({
+        location: location,
         temp: temp,
-        isLoading:false
-        });
-    },function(errorMessage){
-      
-      that.setState({isLoading:false});
-      alert(errorMessage);
-      
+        isLoading: false
+      });
+    },function(e) {
+      debugger;
+      that.setState({
+        isLoading: false,
+        errorMessage: e.message
+      });
+
+
     });
 
   },
-   render :function(){
-    var location = this.state.location;
-    var temp = this.state.temp;
-    var isLoading = this.state.isLoading;
-     function renderMessage(){
-       if(isLoading){
-          return <h3>Fetchinf wheather ... </h3>
-          }else if(location && temp){
-            return <WeatherMessage  temp={temp} location={location}></WeatherMessage>
-          }
-     }
-    return (
+  render: function() {
+    var {location,temp,isLoading,errorMessage} = this.state;
+
+    function renderMessage() {
+      if (isLoading) {
+        return <h1 className = "text-center" > Fetching wheather... < /h1>
+      } else if (location && temp) {
+        return <WeatherMessage temp={temp} location ={location}>< /WeatherMessage>
+      }
+    }
+
+    function renderError() {
+      if(typeof errorMessage  === 'string') {
+        
+        return ( 
+          <ErrorModel message={errorMessage}/>
+        )
+      }
+    }
+    return ( 
       <div>
-         <h3>this is the weather </h3>
-         <WeatherForm onSearch={this.handleSearch}></WeatherForm>
-         {renderMessage()}
+        <h1 className ="text-center" > Get Weather </h1> 
+        <WeatherForm onSearch={this.handleSearch}></WeatherForm>
+        {renderMessage()} 
+        {renderError() } 
       </div>
-      
+
     );
-  } 
+  }
 });
-module.exports=Weather;
+module.exports = Weather;
