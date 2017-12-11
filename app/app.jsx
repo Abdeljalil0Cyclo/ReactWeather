@@ -11,6 +11,8 @@ var Examples=require('Examples');
 require('style!css!foundation-sites/dist/foundation.min.css');
 $(document).foundation();
 
+//app css
+require('style!css!applicationStyles');
 
 
 
